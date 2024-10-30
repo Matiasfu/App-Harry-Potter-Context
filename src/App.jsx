@@ -5,9 +5,11 @@ import RootLayout from './routes/RootLayout'
 import Inicio from './pages/Inicio'
 import Casas from './pages/Casas'
 import Error from './pages/Error'
-import { PATH } from './routes/PATH'
-import Personprovider from './ContextAPI/Personprovider'
 import Personajes from './pages/Personajes'
+import { PATH } from './routes/PATH'
+import { useDispatch } from 'react-redux'
+import { useEffect } from 'react'
+import { getPersonajes } from './Feature/Personajes/PersonajesSlice'
 
 const router = createBrowserRouter([{
   path: '/',
@@ -22,12 +24,21 @@ const router = createBrowserRouter([{
 
 ])
 
+
+
 function App() {
 
+  const dispatch = useDispatch()
+  
+  useEffect(() => {
+    dispatch(getPersonajes())
+  }, [dispatch])
+  
+  
   return (
-    <Personprovider>
+    
       <RouterProvider router={router}/>
-    </Personprovider>
+   
   )
 }
 

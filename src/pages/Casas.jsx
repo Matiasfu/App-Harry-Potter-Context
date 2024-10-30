@@ -1,16 +1,17 @@
-import { useContext } from "react"
-import { person } from "../ContextAPI/Personcontext"
+
+import { useSelector } from "react-redux"
 import Cards from "../components/Cards"
 
 
 const Casas = () => {
 
-  const { personajes ,error } = useContext(person)
+  const personajes = useSelector( state => state.personajes.Characters)
+  
 
   return (
     <>
       <h1>Casas</h1>
-      {error ? <p>Hubo en error al compilar los datos</p> :
+      {/* {error ? <p>Hubo en error al compilar los datos</p> : */
       
       <div className="container-fluid p-3 d-flex flex-wrap gap-2 bg-secondary-subtle my-3">
         {personajes.map((personaje)=>{

@@ -1,23 +1,26 @@
-import { useContext } from 'react'
-import { deletePerson } from '../data/CRUD.JS'
+
+
+import { useDispatch } from 'react-redux';
 import './cards.css'
-import { person, personEdit } from '../ContextAPI/Personcontext'
+import { deletePersonaje } from '../Feature/Personajes/PersonajesSlice';
+import { updatePersonaje } from '../Feature/Personajes/PersonajesSlice'
 
 
-const Tablerow = ({ personaje }) => {
+const Tablerow = ({personaje}) => {
 
-const { personajes , setPersonajes} =  useContext(person)
-const { setPersonedit } = useContext(personEdit)
 
+const dispatch = useDispatch()
 
 const { id, nombre , casa } = personaje;
 
   const handleDelete = ()=>{
-    deletePerson(id, personajes, setPersonajes)
+    dispatch(deletePersonaje(id))
+    console.log('borrar')
   }
 
   const handleEditar = ()=>{
-    setPersonedit(personaje)
+    dispatch(updatePersonaje(id))
+    console.log('editar')
   }
 
   return (

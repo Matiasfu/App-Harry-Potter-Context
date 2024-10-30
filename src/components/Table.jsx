@@ -1,17 +1,19 @@
-import { useContext } from "react"
+
 import Tablerow from "./Tablerow"
-import { person } from "../ContextAPI/Personcontext"
+import { useSelector } from "react-redux"
 
 
 const Table = () => {
 
-const { personajes , error, } = useContext(person)
+const personajes = useSelector((store)=>store.personajes.Characters)
+
+
 
   return (
   
   <>
    
-      {error ? <p>Hubo en error al compilar los datos</p> :
+      {/* {error ? <p>Hubo en error al compilar los datos</p> : */
     
             <table className="table">
             <thead>

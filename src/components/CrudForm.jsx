@@ -1,29 +1,26 @@
-import { useContext, useEffect, useState } from "react"
+
+import { useEffect, useState } from "react"
 import Input from "./Input"
-import { person, personEdit } from "../ContextAPI/Personcontext"
-import { createPerson } from "../data/CRUD.JS"
-import { updatePerson } from "../data/CRUD.JS"
+import { useDispatch, useSelector } from "react-redux"
+import { createPersonaje } from '../Feature/Personajes/PersonajesSlice'
 
 const initialState = {
   id: null,
-  nombre: '',
-  casa: '',
+  nombre: "",
+  casa: "",
 }
 
 const CrudForm = () => {
 
   const [form, setForm] = useState(initialState)
-  const { setPersonajes, personajes } = useContext(person)
-  const { personedit , setPersonedit } = useContext(personEdit)
 
-  
+  const editPersonaje = useSelector(store => store.personajes.Charactertoedit)
+  const dispatch = useDispatch()
 
   const handlesubmit = (e) => {
     e.preventDefault()
-    
+    dispatch(createPersonaje(form))
     handleReseat()
-    form.id ? updatePerson (form, personajes, setPersonajes) 
-    : createPerson(form , personajes , setPersonajes)
   }
 
   const handlechange = ({target:{ name , value}})=>{
@@ -33,17 +30,17 @@ const CrudForm = () => {
 
   const handleReseat = () => {
     setForm(initialState)
-    setPersonedit(null)
   }
   
   useEffect(() => {
-   
-    if(personedit){
-      setForm(personedit)
+    
+    if(editPersonaje){
+      setForm(editPersonaje)
     } else {
       setForm(initialState)
     }
-  }, [personedit])
+    
+  }, [editPersonaje])
   
 
   return (
@@ -52,7 +49,7 @@ const CrudForm = () => {
         
         <form onSubmit={handlesubmit} className=" ms-4 w-auto">
 
-              <h3>{personedit? 'Editar Personaje' : 'Cargar Personaje'}</h3>
+              {/* <h3>{personedit? 'Editar Personaje' : 'Cargar Personaje'}</h3> */}
         
               <Input name='nombre' value={form.nombre} handlechange={handlechange}/>
               <Input name='casa' value={form.casa} handlechange={handlechange}/>
