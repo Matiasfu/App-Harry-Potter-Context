@@ -2,7 +2,7 @@
 
 import { useDispatch } from 'react-redux';
 import './cards.css'
-import { deletePersonaje } from '../Feature/Personajes/PersonajesSlice';
+import { deletePersonaje, removePersonaje } from '../Feature/Personajes/PersonajesSlice';
 import { updatePersonaje } from '../Feature/Personajes/PersonajesSlice'
 
 
@@ -15,6 +15,7 @@ const { id, nombre , casa } = personaje;
 
   const handleDelete = ()=>{
     dispatch(deletePersonaje(id))
+    dispatch(removePersonaje(personaje))
     console.log('borrar')
   }
 

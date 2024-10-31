@@ -29,7 +29,8 @@ const router = createBrowserRouter([{
 function App() {
 
   const dispatch = useDispatch()
-  
+ 
+//cuando inicializa el componente traigo la lista de personajes desde el servidor
   useEffect(() => {
     dispatch(getPersonajes())
   }, [dispatch])

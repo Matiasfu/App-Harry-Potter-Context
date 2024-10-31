@@ -1,50 +1,25 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { characters } from "../../data/personajes";
+import { useFetch } from "../../data/Hooks/FETCH";
 
 const initialState = {
-  Characters:  characters,
+  Characters:  [],
   Charactertoedit: {},
   loading: false,
   error: null,
 }
 
-export const getPersonajes = createAsyncThunk(
-    
-    "Characters/get-personajes", 
-    
-    async () => {
-    
-        try {
-            const response = await fetch("https://671a85aeacf9aa94f6aaf269.mockapi.io/personajes-harry-potter/personajes")
-            const data = await response.json()
-            return data
-        } catch (error) {
-            console.log(error);
-            
-            return error
-        }
 
-    },
-)
+//funciones para actualizar la data en el servidor
+export const getPersonajes = useFetch('GET' , createAsyncThunk)
 
-export const PostPersonajes = createAsyncThunk(
-    "Characters/post-personaje",
+export const postPersonaje = useFetch('POST' , createAsyncThunk)
     
-    async (personajes) => {
-        
-        try {
-        const post = await fetch('https://671a85aeacf9aa94f6aaf269.mockapi.io/personajes-harry-potter/personajes', 
-            {
-          method:'POST',
-          headers: {'Content-Type' : 'application/json'},
-          body: JSON.stringify(personajes)
-        })
-  
-      } catch (error) {
-        console.error(error)
-        
-      }})
+export const putPersonaje = useFetch('PUT' , createAsyncThunk)
 
+export const removePersonaje = useFetch('DELETE' , createAsyncThunk)
+
+
+//slice que maneja el state de los personajes traidos desde el servidor
 export const Person = createSlice(
     {
         name: 'Characters',
@@ -87,14 +62,36 @@ export const Person = createSlice(
                 state.loading = false
                 state.error = action.error.message
             })
-            .addCase(PostPersonajes.pending, (state) => {
+            .addCase(postPersonaje.pending, (state) => {
                 state.loading = true
             })
-            .addCase(PostPersonajes.fulfilled, (state) => {
+            .addCase(postPersonaje.fulfilled, (state) => {
                 state.loading = false
                 
             })
-            .addCase(PostPersonajes.rejected, (state, action) => {
+            .addCase(postPersonaje.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message
+            })
+            .addCase(putPersonaje.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(putPersonaje.fulfilled, (state) => {
+                state.loading = false
+                
+            })
+            .addCase(putPersonaje.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message
+            })
+            .addCase(removePersonaje.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(removePersonaje.fulfilled, (state) => {
+                state.loading = false
+                
+            })
+            .addCase(removePersonaje.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.error.message
             })
