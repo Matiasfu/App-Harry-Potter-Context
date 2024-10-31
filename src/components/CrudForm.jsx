@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react"
 import Input from "./Input"
 import { useDispatch, useSelector } from "react-redux"
-import { createPersonaje } from '../Feature/Personajes/PersonajesSlice'
+import { createPersonaje, PostPersonajes } from '../Feature/Personajes/PersonajesSlice'
 
 const initialState = {
   id: null,
@@ -20,6 +20,7 @@ const CrudForm = () => {
   const handlesubmit = (e) => {
     e.preventDefault()
     dispatch(createPersonaje(form))
+    dispatch(PostPersonajes(form))
     handleReseat()
   }
 

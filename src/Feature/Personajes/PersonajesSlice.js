@@ -27,6 +27,24 @@ export const getPersonajes = createAsyncThunk(
     },
 )
 
+export const PostPersonajes = createAsyncThunk(
+    "Characters/post-personaje",
+    
+    async (personajes) => {
+        
+        try {
+        const post = await fetch('https://671a85aeacf9aa94f6aaf269.mockapi.io/personajes-harry-potter/personajes', 
+            {
+          method:'POST',
+          headers: {'Content-Type' : 'application/json'},
+          body: JSON.stringify(personajes)
+        })
+  
+      } catch (error) {
+        console.error(error)
+        
+      }})
+
 export const Person = createSlice(
     {
         name: 'Characters',
@@ -43,7 +61,6 @@ export const Person = createSlice(
                     action.payload.id = id;
                     state.Characters.push(action.payload)
                 }
-                
             },
             //eliminar personaje
             deletePersonaje: (state, action) => {
@@ -67,6 +84,17 @@ export const Person = createSlice(
                 state.Characters = action.payload
             })
             .addCase(getPersonajes.rejected, (state, action) => {
+                state.loading = false
+                state.error = action.error.message
+            })
+            .addCase(PostPersonajes.pending, (state) => {
+                state.loading = true
+            })
+            .addCase(PostPersonajes.fulfilled, (state) => {
+                state.loading = false
+                
+            })
+            .addCase(PostPersonajes.rejected, (state, action) => {
                 state.loading = false
                 state.error = action.error.message
             })
