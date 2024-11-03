@@ -1,49 +1,61 @@
-import { useContext, useEffect, useState } from "react"
+
+import { useEffect, useState } from "react"
 import Input from "./Input"
-import { person, personEdit } from "../ContextAPI/Personcontext"
-import { createPerson } from "../data/CRUD.JS"
-import { updatePerson } from "../data/CRUD.JS"
+import { useDispatch, useSelector } from "react-redux"
+import { createPersonaje, postPersonaje, putPersonaje } from '../Feature/Personajes/PersonajesSlice'
 
 const initialState = {
   id: null,
-  nombre: '',
-  casa: '',
+  nombre: "",
+  casa: "",
 }
 
 const CrudForm = () => {
 
+  //inicializo un state propio del componente
   const [form, setForm] = useState(initialState)
-  const { setPersonajes, personajes } = useContext(person)
-  const { personedit , setPersonedit } = useContext(personEdit)
 
-  
+  //uso el useSelector para obtener el personaje a editar
+  const editPersonaje = useSelector(store => store.personajes.Charactertoedit)
+  const dispatch = useDispatch()
 
+  //manejo el evento del formulario y cambio el state del formulario
   const handlesubmit = (e) => {
     e.preventDefault()
+    if(editPersonaje){
+      dispatch(createPersonaje(form))
+      dispatch(putPersonaje(form))
+      console.log('editar')
+      handleReseat()
+    }else{
+      dispatch(createPersonaje(form))
+      dispatch(postPersonaje(form))
+      handleReseat()
+    }
     
-    handleReseat()
-    form.id ? updatePerson (form, personajes, setPersonajes) 
-    : createPerson(form , personajes , setPersonajes)
   }
 
+  //manejo el evento del input y cambio el state del formulario en función del nombre del input y su valor
   const handlechange = ({target:{ name , value}})=>{
    
     setForm({...form, [name]: value })
   }
 
+  //manejo el evento de resetear el formulario y limpio el state del formulario
   const handleReseat = () => {
     setForm(initialState)
-    setPersonedit(null)
   }
   
+  //se ejecuta cada vez que el state del personaje a editar cambia, se resetea el formulario al estado inicial
   useEffect(() => {
-   
-    if(personedit){
-      setForm(personedit)
+    
+    if(editPersonaje){
+      setForm(editPersonaje)
     } else {
       setForm(initialState)
     }
-  }, [personedit])
+    
+  }, [editPersonaje])
   
 
   return (
@@ -52,7 +64,7 @@ const CrudForm = () => {
         
         <form onSubmit={handlesubmit} className=" ms-4 w-auto">
 
-              <h3>{personedit? 'Editar Personaje' : 'Cargar Personaje'}</h3>
+              <h3>{editPersonaje? 'Editar Personaje' : 'Cargar Personaje'}</h3> 
         
               <Input name='nombre' value={form.nombre} handlechange={handlechange}/>
               <Input name='casa' value={form.casa} handlechange={handlechange}/>

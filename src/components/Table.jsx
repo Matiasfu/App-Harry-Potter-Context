@@ -1,17 +1,23 @@
-import { useContext } from "react"
+
+import Loader from "./Loader"
 import Tablerow from "./Tablerow"
-import { person } from "../ContextAPI/Personcontext"
+import { useSelector } from "react-redux"
 
 
 const Table = () => {
 
-const { personajes , error, } = useContext(person)
+const personajes = useSelector((store)=>store.personajes.Characters)
+
+const error = useSelector((store)=>store.personajes.error)
+
+const loading = useSelector(state => state.personajes.loading)
+
 
   return (
   
   <>
-   
-      {error ? <p>Hubo en error al compilar los datos</p> :
+   {loading && <Loader/>}
+      {error ? <p>Hubo en error al compilar los datos</p> : 
     
             <table className="table">
             <thead>
@@ -26,7 +32,7 @@ const { personajes , error, } = useContext(person)
             <tbody> 
 
                     {
-                    personajes.length >0 ? 
+                    personajes.length >=0 ? 
                     personajes.map((personaje)=>{
                              return(
                                     <Tablerow key={personaje.id} personaje={personaje}/>
@@ -34,7 +40,8 @@ const { personajes , error, } = useContext(person)
                             }):
                       <tr>
                         <td colSpan="4">No hay personajes</td>
-                      </tr>}
+                      </tr>
+                    }
     
             </tbody> 
         </table>}

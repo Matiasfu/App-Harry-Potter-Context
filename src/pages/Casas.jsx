@@ -1,11 +1,12 @@
-import { useContext } from "react"
-import { person } from "../ContextAPI/Personcontext"
+
+import { useSelector } from "react-redux"
 import Cards from "../components/Cards"
 
 
 const Casas = () => {
 
-  const { personajes ,error } = useContext(person)
+  const personajes = useSelector( state => state.personajes.Characters)
+  const error = useSelector(state => state.personajes.error)
 
   return (
     <>
