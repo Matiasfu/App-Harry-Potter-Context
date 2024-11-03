@@ -2,7 +2,7 @@
   "name": "harry-potter-app",
   "private": true,
   "version": "0.0.0",
-  "homepage": ".",
+  "homepage": "https://Matiasfu.github.io/app-harry-potter-context",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
